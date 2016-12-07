@@ -22,7 +22,7 @@ body{
 	margin: 0 auto;
 	margin-top: 200px;
 	text-align: center;
-	/*display: none; *//* REMOVE LATER ON*/
+	display: none; /* REMOVE LATER ON*/
 }
 
 .start-quiz-button{
@@ -97,6 +97,7 @@ h2.question{
 }
 
 
+
 .img-display{
 	width: 220px;
 	height: 270px;
@@ -109,9 +110,9 @@ h2.question{
 	padding-top: 20px;
 }
 
-.hidden {
+/*.hidden {
 	display: none;
-}
+}*/
 
 
 
