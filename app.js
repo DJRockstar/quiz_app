@@ -71,7 +71,7 @@ $('li.options-li').on('click', function(event){
 		updateScoreValue(state, $('.score-section').find('.current-score'));
 	}
 	else {
-		alert('Woops!');
+		alert(`Sorry, it's wrong. The right answer is ${data[state.currentIndex].answer}. Please move to next question`);
 	}
 }
 
@@ -112,7 +112,7 @@ function displayOptions(state, data, index){ //Function Renders the 4 options on
     var innerHTML;
 	innerHTML = data[index].options;
 	$('ul.options .options-li').remove();
-	 for(var i =0; i < 4; i++){
+	 for(var i =0; i < innerHTML.length; i++){
 		$('ul.options').append('<li class="options-li">' + innerHTML[i] + '</li>');
 	}
 }
@@ -120,7 +120,7 @@ function displayOptions(state, data, index){ //Function Renders the 4 options on
 
 function nextQuestion(state){ 
 	state.currentIndex += 1;
-	$('section .next-question').removeClass('hidden');
+	// $('section .next-question').removeClass('hidden');
 }
 
 /*==============================================
@@ -137,9 +137,19 @@ function userSelection(){
 	})
 }
 
+function clickNext(){
+	$('button.next-question').on('click', function(){
+		$('section .next-question').addClass('hidden');
+		nextQuestion(state);
+		displayImage(state, quiz, state.currentIndex);
+		displayOptions(state, quiz, state.currentIndex);
+		userSelection();
+	})
+}
+
 function startQuiz(){ //Function triggers when user hits the Start Quiz Button.
 	$('.start-quiz-button').on('click', function(){
-		$('div.quiz-container').remove(); //To make it visible
+		$('div.quiz-container').slideUp(400); //To make it visible
 		$('nav.question-display-count').removeClass('hidden'); //To make styling visible
 		$('div.ques-box-container').removeClass('hidden'); //To make styling visible
 		$('section.score-section').removeClass('hidden'); //To make styling visible
@@ -153,7 +163,7 @@ function startQuiz(){ //Function triggers when user hits the Start Quiz Button.
 
 $('document').ready(function(){
 	startQuiz();
-	
+	clickNext();
 
 
 
