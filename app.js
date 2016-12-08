@@ -69,6 +69,7 @@ $('li.options-li').on('click', function(event){
 ***************/
 	if(userChoice === data[state.currentIndex].answer){
 		updateScoreValue(state, $('.score-section').find('.current-score'));
+
 	}
 	else {
 		alert(`Sorry, it's wrong. The right answer is ${data[state.currentIndex].answer}. Please move to next question`);
@@ -85,30 +86,32 @@ function displayImage(state, data, index){
 	$('div.question-box').find('.img-display').attr('src',image);
 }
 
+function resetScoreValue(state, element){ //This func will reset the score to  0 when user hits Try again
+	element.html(0);
+}
 
 function updateScoreValue(state, element){ //element - $('.score-section').find('.current-score')
-	var newScore = parseInt($('.current-score').text()) + 1;
-	element.html(newScore);
+	// var newScore = parseInt($('.current-score').text()) + 1;
+	element.html(state.currentScore+=1);
 }
 
 
 function displayQuestionNumber(index){ //updates the question number in the nav bar
 var updatedQuestionVal;
-var element;
  updatedQuestionVal = index + 1;
-	if(updatedQuestionVal<=10) {	
+	if(updatedQuestionVal<10) {	
 		element = $('span.question-number');
 		element.html(updatedQuestionVal);
 	  }
-	else{
-	  $('button.next-question').remove();
-	  $('span.ques-no-display').text('End of Quiz');
+	else if(updatedQuestionVal===10){
+	  element.html('End of Quiz');
+	  $('section .next-question').addClass('hidden');
 	 }
 }
 
 
 function displayOptions(state, data, index){ //Function Renders the 4 options on the page
-	displayQuestionNumber(index)
+	displayQuestionNumber(index);
     var innerHTML;
 	innerHTML = data[index].options;
 	$('ul.options .options-li').remove();
@@ -119,8 +122,14 @@ function displayOptions(state, data, index){ //Function Renders the 4 options on
 
 
 function nextQuestion(state){ 
-	state.currentIndex += 1;
+
+	++state.currentIndex;
 	// $('section .next-question').removeClass('hidden');
+}
+
+function finalScore(state){
+	var element = $('.final-score-display')
+	element.html(state.currentScore);
 }
 
 /*==============================================
@@ -129,27 +138,44 @@ function nextQuestion(state){
 
 function userSelection(){
 	$('li.options-li').on('click', function(event){
-		event.stopPropagation();
-		var userChoice = $(this).html();
-		checkAnswer(state, quiz, userChoice);
-		$('section .next-question').removeClass('hidden');
-		$('li.options-li').unbind('click'); //Unbind will stop the user from clicking the option AGAIN!
+			event.stopPropagation();
+			var userChoice = $(this).html();
+			checkAnswer(state, quiz, userChoice);
+			$('section .next-question').removeClass('hidden');
+			$('li.options-li').unbind('click'); //Unbind will stop the user from clicking the option AGAIN!
+			if(state.currentIndex===9){
+				$('div.final-score-box').removeClass('hidden');
+				finalScore(state);
+				$('nav.question-display-count').addClass('hidden'); //To make styling visible
+				$('div.ques-box-container').addClass('hidden'); //To make styling visible
+				$('section.score-section').addClass('hidden'); 
+				$('button.try-again').on('click', function(){
+					state.currentIndex = 0;
+					resetScoreValue(state, $('.score-section').find('.current-score'));
+					$('div.final-score-box').addClass('hidden');
+					$('div.quiz-container').slideDown()
+				})
+			}
 	})
 }
 
 function clickNext(){
-	$('button.next-question').on('click', function(){
-		$('section .next-question').addClass('hidden');
-		nextQuestion(state);
-		displayImage(state, quiz, state.currentIndex);
-		displayOptions(state, quiz, state.currentIndex);
-		userSelection();
-	})
-}
+		$('button.next-question').on('click', function(){
+			$('section .next-question').addClass('hidden');
+			nextQuestion(state);
+			displayImage(state, quiz, state.currentIndex);
+			displayOptions(state, quiz, state.currentIndex);
+			userSelection();
+		});
+	}
+
 
 function startQuiz(){ //Function triggers when user hits the Start Quiz Button.
 	$('.start-quiz-button').on('click', function(){
+		state.currentIndex = 0;
+		state.currentScore = 0;
 		$('div.quiz-container').slideUp(400); //To make it visible
+		$('section .next-question').addClass('hidden');
 		$('nav.question-display-count').removeClass('hidden'); //To make styling visible
 		$('div.ques-box-container').removeClass('hidden'); //To make styling visible
 		$('section.score-section').removeClass('hidden'); //To make styling visible
@@ -164,9 +190,6 @@ function startQuiz(){ //Function triggers when user hits the Start Quiz Button.
 $('document').ready(function(){
 	startQuiz();
 	clickNext();
-
-
-
 });
 
 

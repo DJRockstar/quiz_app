@@ -1,6 +1,11 @@
 * {
 	box-sizing: border-box;
 }
+ 
+ html {
+  position: relative;
+  min-height: 100%;
+}
 
 body{
 	background-color: yellowgreen;
@@ -80,7 +85,7 @@ h2.question{
 	list-style: none;
 }
 
-.options-li{
+.options-li {
 	display: inline-block;
 	border: 1px solid white;
 	background-color: #888;
@@ -109,6 +114,12 @@ h2.question{
 	padding-top: 20px;
 }
 
+.final-score-box{
+	text-align: center;
+	margin-top: 18.75%; /* 1% = 16px */
+}
+
+
 .hidden {
 	display: none;
 }
@@ -118,13 +129,14 @@ h2.question{
 	background-color: yellowgreen;
 }
 
-.footer{
+
+.footer {
 	color: white;
 	position: absolute;
 	bottom: 0;
+	width: 100%;
 	left: 43%;
 }
-
 
 
 
