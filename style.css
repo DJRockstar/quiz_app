@@ -130,7 +130,7 @@ h2.question{
 }
 
 
-.footer {
+.footer { /*Use display block property*/
 	color: white;
 	position: absolute;
 	bottom: 0;

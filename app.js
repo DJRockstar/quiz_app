@@ -38,8 +38,8 @@ var quiz =
 	  options:['George Bush', 'Barack Obama','Thomas Jefferson', 'Franklin Pierce']
 	  },
    	 {image: "images/t_roosevelt.jpg", 
-	  answer: 'Thomas Roosevelt',
-	  options:['George Bush', 'Thomas Roosevelt','Thomas Jefferson', 'Kanye West']
+	  answer: 'Theodore Roosevelt',
+	  options:['George Bush', 'Theodore Roosevelt','Thomas Jefferson', 'Kanye West']
 	 }
 	];
 
@@ -52,11 +52,6 @@ var state = {
 ========FUNCTIONS THAT MODIFY STATE=============
 ===============================================*/
 
-
-// function updateIndex(){
-//   if(currentIndex() < 10)
-//     state.currentIndex++;
-// }
 
 
 function checkAnswer(state, data, userChoice){ 
@@ -91,7 +86,6 @@ function resetScoreValue(state, element){ //This func will reset the score to  0
 }
 
 function updateScoreValue(state, element){ //element - $('.score-section').find('.current-score')
-	// var newScore = parseInt($('.current-score').text()) + 1;
 	element.html(state.currentScore+=1);
 }
 
@@ -122,9 +116,7 @@ function displayOptions(state, data, index){ //Function Renders the 4 options on
 
 
 function nextQuestion(state){ 
-
 	++state.currentIndex;
-	// $('section .next-question').removeClass('hidden');
 }
 
 function finalScore(state){
@@ -172,7 +164,7 @@ function clickNext(){
 
 function startQuiz(){ //Function triggers when user hits the Start Quiz Button.
 	$('.start-quiz-button').on('click', function(){
-		state.currentIndex = 0;
+		state.currentIndex = 0; 
 		state.currentScore = 0;
 		$('div.quiz-container').slideUp(400); //To make it visible
 		$('section .next-question').addClass('hidden');
